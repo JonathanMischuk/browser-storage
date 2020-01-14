@@ -161,17 +161,17 @@ const proto = props => {
 };
 
 export const browserStorage = (customOptions = {}) => {
-	const _props = {
+	const props = {
 		...privateProps,
 		...customOptions,
 		createdAt: new Date().getTime()
 	};
 
-	_props.type =
+	props.type =
 		customOptions.type &&
 		arrayHasValue(storageTypeNames, customOptions.type)
 			? customOptions.type
 			: privateProps.type;
 
-	return Object.assign(Object.create(proto(_props)));
+	return Object.assign(Object.create(proto(props)));
 };
