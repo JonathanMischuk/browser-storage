@@ -1,0 +1,14 @@
+{
+  "name": "ls",
+  "version": "1.0.0",
+  "description": "Local Storage Abstraction",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel serve sandbox/index.html"
+  },
+  "author": "Jonathan Mischuk",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel": "^2.0.0-alpha.3.2"
+  }
+}
