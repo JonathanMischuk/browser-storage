@@ -74,7 +74,9 @@ const proto = props => {
 				stringify({ ...itemProps, ...options, createdAt })
 			);
 
-			if (events.hasOwnProperty(name)) events[name](data);
+			if (events.hasOwnProperty(name)) {
+				events[name].forEach(event => event(data));
+			}
 
 			return api;
 		},
@@ -132,7 +134,8 @@ const proto = props => {
 		},
 
 		on(name, cb) {
-			events[name] = cb;
+			if (!events.hasOwnProperty(name)) events[name] = [];
+			events[name] = [...events[name], cb];
 		}
 	};
 

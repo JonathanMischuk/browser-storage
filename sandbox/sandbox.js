@@ -46,3 +46,7 @@ storage.on('poopy', value => {
 
 	dynamicText01.innerHTML = value;
 });
+
+storage.on('poopy', value => {
+	console.log('yo mama');
+});
