@@ -17,16 +17,14 @@ const storageTypeObjects = { localStorage, sessionStorage };
 
 const privateProps = {
 	type: LOCAL_STORAGE,
-	createdAt: null,
-	expiryFormat: DAYS,
-	expiryLength: 1
+	name: ''
 };
 
 const itemProps = {
 	data: {},
 	createdAt: null,
-	expiryFormat: SECONDS,
-	expiryLength: 5
+	expiryFormat: DAYS,
+	expiryLength: 365
 };
 
 const timeFormats = {
@@ -108,7 +106,8 @@ const proto = props => {
 				storage.removeItem(name);
 				storage.setItem(storageName, stringify(newStorageItemNames));
 
-				if (events.hasOwnProperty(name)) delete events[name];
+				// what to do if storage is cleared but on event still exists
+				// if (events.hasOwnProperty(name)) delete events[name];
 			}
 
 			return api;
@@ -134,8 +133,10 @@ const proto = props => {
 		},
 
 		on(name, cb) {
-			if (!events.hasOwnProperty(name)) events[name] = [];
-			events[name] = [...events[name], cb];
+			if (get(storageName).includes(name)) {
+				if (!events.hasOwnProperty(name)) events[name] = [];
+				events[name] = [...events[name], cb];
+			}
 		}
 	};
 
@@ -166,8 +167,7 @@ const proto = props => {
 export const browserStorage = (customOptions = {}) => {
 	const props = {
 		...privateProps,
-		...customOptions,
-		createdAt: new Date().getTime()
+		...customOptions
 	};
 
 	props.type =
