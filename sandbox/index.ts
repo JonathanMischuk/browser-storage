@@ -1,4 +1,4 @@
-import { browserStorage } from './src';
+import { browserStorage } from '../src';
 
 const storage = browserStorage({
 	name: 'funStorage',
@@ -13,7 +13,7 @@ const button01 = document.querySelector('#button01');
 const button02 = document.querySelector('#button02');
 const button03 = document.querySelector('#button03');
 const button04 = document.querySelector('#button04');
-const button05 = document.querySelector('#button05');
+// const button05 = document.querySelector('#button05');
 
 const dynamicText01 = document.querySelector('#dynamic-text-01');
 const dynamicText02 = document.querySelector('#dynamic-text-02');
@@ -50,9 +50,9 @@ button04.addEventListener('click', e => {
 	dynamicText01.innerHTML = data ? data.name : 'no data';
 });
 
-button05.addEventListener('click', e => {
-	storage.set('ultra feast', { data: new Date().getTime() });
-});
+// button05.addEventListener('click', e => {
+// 	storage.set('ultra feast', { data: new Date().getTime() });
+// });
 
 storage.on('flubber', value => {
 	console.log(value);

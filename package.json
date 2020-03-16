@@ -4,11 +4,14 @@
   "description": "Local Storage Abstraction",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel serve sandbox/index.html"
+    "start": "parcel serve sandbox/index.html",
+    "ts": "tsc --noEmit"
   },
   "author": "Jonathan Mischuk",
   "license": "MIT",
   "devDependencies": {
-    "parcel": "^2.0.0-alpha.3.2"
+    "@types/parcel-env": "0.0.0",
+    "parcel": "^2.0.0-alpha.3.2",
+    "typescript": "^3.8.3"
   }
 }

@@ -1,4 +1,4 @@
-import { arrayHasValue } from '../utils';
+import { arrayHasValue } from './utils';
 
 const { localStorage, sessionStorage } = window;
 const { stringify, parse } = JSON;
@@ -34,7 +34,13 @@ const timeFormats = {
 	days: 86400000
 };
 
-const isExpired = ({ expiryFormat, expiryLength, createdAt }) => {
+interface IsExpired {
+	expiryFormat: string,
+	expiryLength: number,
+	createdAt: number
+}
+
+const isExpired = ({ expiryFormat, expiryLength, createdAt }: IsExpired): boolean => {
 	const currentTime = new Date().getTime();
 	const timeToAdd = timeFormats[expiryFormat] * expiryLength;
 	const expiryTime = createdAt + timeToAdd;
