@@ -1,12 +1,9 @@
 import { isExpired } from './utils/index';
 import { itemProps } from './props';
+import { ApiSetOptions } from './interfaces';
 import { BROWSER_STORAGE_NAMES, STORAGE_TYPE_OBJECTS } from './constants';
 
 const { stringify, parse } = JSON;
-
-interface ApiSetOptions {
-	data?: object;
-}
 
 export const proto = props => {
 	const storage = STORAGE_TYPE_OBJECTS[props.type];

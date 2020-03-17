@@ -1,15 +1,11 @@
+import { IsExpired } from '../interfaces';
+
 const timeFormats = {
 	seconds: 1000,
 	minutes: 60000,
 	hours: 3600000,
 	days: 86400000
 };
-
-interface IsExpired {
-	expiryFormat: string;
-	expiryLength: number;
-	createdAt: number;
-}
 
 export const isExpired = ({
 	expiryFormat,
