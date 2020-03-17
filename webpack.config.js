@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
 	devtool: 'cheap-module-eval-source-map',
-	entry: './sandbox/index.ts',
+	entry: ['./sandbox/index.html', './sandbox/index.ts'],
 	resolve: {
 		extensions: ['.ts', '.js']
 	},
@@ -26,6 +26,10 @@ module.exports = {
 				use: {
 					loader: 'awesome-typescript-loader'
 				}
+			},
+			{
+				test: /\.html$/,
+				use: 'html-loader'
 			}
 		]
 	},
