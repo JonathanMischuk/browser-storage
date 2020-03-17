@@ -1,18 +1,15 @@
-import { arrayHasValue } from './utils';
+import { arrayHasValue, isExpired } from './utils/index';
 
 const { localStorage, sessionStorage } = window;
 const { stringify, parse } = JSON;
 
-const LOCAL_STORAGE = 'localStorage';
-const SESSION_STORAGE = 'sessionStorage';
-const BROWSER_STORAGE_NAMES = 'browserStorageNames';
+const LOCAL_STORAGE: string = 'localStorage';
+const SESSION_STORAGE: string = 'sessionStorage';
+const BROWSER_STORAGE_NAMES: string = 'browserStorageNames';
 
-const SECONDS = 'seconds';
-const MINUTES = 'minutes';
-const HOURS = 'hours';
-const DAYS = 'days';
+const DAYS: string = 'days';
 
-const storageTypeNames = [LOCAL_STORAGE, SESSION_STORAGE];
+const storageTypeNames: string[] = [LOCAL_STORAGE, SESSION_STORAGE];
 const storageTypeObjects = { localStorage, sessionStorage };
 
 const privateProps = {
@@ -27,26 +24,9 @@ const itemProps = {
 	expiryLength: 365
 };
 
-const timeFormats = {
-	seconds: 1000,
-	minutes: 60000,
-	hours: 3600000,
-	days: 86400000
-};
-
-interface IsExpired {
-	expiryFormat: string,
-	expiryLength: number,
-	createdAt: number
+interface ApiSetOptions {
+	data?: object;
 }
-
-const isExpired = ({ expiryFormat, expiryLength, createdAt }: IsExpired): boolean => {
-	const currentTime = new Date().getTime();
-	const timeToAdd = timeFormats[expiryFormat] * expiryLength;
-	const expiryTime = createdAt + timeToAdd;
-
-	return currentTime > expiryTime;
-};
 
 const proto = props => {
 	const storage = storageTypeObjects[props.type];
@@ -58,7 +38,7 @@ const proto = props => {
 	const events = {};
 
 	const api = {
-		set(name, options = {}) {
+		set(name: string, options: ApiSetOptions = {}) {
 			const { data } = options;
 
 			if (name === undefined) throw Error('name cannot be undefined');
@@ -138,7 +118,7 @@ const proto = props => {
 			return get(storageName);
 		},
 
-		on(name, cb) {
+		on(name: string, cb: () => void): void {
 			if (get(storageName).includes(name)) {
 				if (!events.hasOwnProperty(name)) events[name] = [];
 				events[name] = [...events[name], cb];
@@ -170,7 +150,12 @@ const proto = props => {
 	return api;
 };
 
-export const browserStorage = (customOptions = {}) => {
+interface BrowserStorage {
+	type?: string;
+	name?: string;
+}
+
+export const browserStorage = (customOptions: BrowserStorage = {}) => {
 	const props = {
 		...privateProps,
 		...customOptions
@@ -182,5 +167,5 @@ export const browserStorage = (customOptions = {}) => {
 			? customOptions.type
 			: privateProps.type;
 
-	return Object.assign(Object.create(proto(props)));
+	return Object.create(proto(props));
 };

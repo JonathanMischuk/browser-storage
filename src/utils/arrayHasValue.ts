@@ -1,8 +1,3 @@
-export const arrayHasValue = (arr, value) => {
-	if (!Array.isArray(arr))
-		throw Error(
-			'no array supplied for includes(arr, value) first argument'
-		);
-
-	return arr.includes(value);
+export const arrayHasValue = (arr: string[], value: string) => {
+	return arr.indexOf(value) !== -1;
 };
