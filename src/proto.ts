@@ -1,21 +1,21 @@
 import { isExpired } from './utils/index';
 import { itemProps } from './props';
-import { ApiSetOptions } from './interfaces';
+import { ProtoInterface, ApiSetOptionsInterface } from './interfaces';
 import { BROWSER_STORAGE_NAMES, STORAGE_TYPE_OBJECTS } from './constants';
 
 const { stringify, parse } = JSON;
 
-export const proto = props => {
+export const proto = (props: ProtoInterface) => {
 	const storage = STORAGE_TYPE_OBJECTS[props.type];
-	const get = name => parse(storage.getItem(name));
-	const storageNames = get(BROWSER_STORAGE_NAMES);
-	const storageName = props.name;
-	const storageItemNames = get(storageName);
+	const get = (name: string) => parse(storage.getItem(name));
+	const storageNames: string = get(BROWSER_STORAGE_NAMES);
+	const storageName: string = props.name;
+	const storageItemNames: string[] = get(storageName);
 
 	const events = {};
 
 	const api = {
-		set(name: string, options: ApiSetOptions = {}) {
+		set(name: string, options: ApiSetOptionsInterface) {
 			const { data } = options;
 
 			if (name === undefined) throw Error('name cannot be undefined');
@@ -42,7 +42,7 @@ export const proto = props => {
 			return api;
 		},
 
-		get(name) {
+		get(name: string) {
 			if (name === undefined) throw Error('name cannot be undefined');
 
 			const storageItem = get(name);
@@ -59,7 +59,7 @@ export const proto = props => {
 			return null;
 		},
 
-		remove(name) {
+		remove(name: string) {
 			if (name === undefined) throw Error('name cannot be undefined');
 			if (api.exists(name)) {
 				const newStorageItemNames = get(storageName).filter(
@@ -76,7 +76,7 @@ export const proto = props => {
 			return api;
 		},
 
-		exists(name) {
+		exists(name: string) {
 			if (name === undefined) throw Error('name cannot be undefined');
 			return get(name) !== null;
 		},
@@ -95,7 +95,7 @@ export const proto = props => {
 			return get(storageName);
 		},
 
-		on(name: string, cb: () => void): void {
+		on(name: string, cb: (value: any) => void): void {
 			if (get(storageName).includes(name)) {
 				if (!events.hasOwnProperty(name)) events[name] = [];
 				events[name] = [...events[name], cb];
@@ -103,6 +103,8 @@ export const proto = props => {
 		}
 	};
 
+	// set local storage with list of browserStorage
+	// instance names for persistence
 	if (!storageNames || !storageNames.includes(storageName)) {
 		storage.setItem(
 			BROWSER_STORAGE_NAMES,
@@ -123,6 +125,8 @@ export const proto = props => {
 			}
 		});
 	}
+
+	console.log(api);
 
 	return api;
 };

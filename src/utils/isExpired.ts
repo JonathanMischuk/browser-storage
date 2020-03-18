@@ -1,4 +1,4 @@
-import { IsExpired } from '../interfaces';
+import { IsExpiredInterface } from '../interfaces';
 
 const timeFormats = {
 	seconds: 1000,
@@ -11,7 +11,7 @@ export const isExpired = ({
 	expiryFormat,
 	expiryLength,
 	createdAt
-}: IsExpired): boolean => {
+}: IsExpiredInterface): boolean => {
 	const currentTime = new Date().getTime();
 	const timeToAdd = timeFormats[expiryFormat] * expiryLength;
 	const expiryTime = createdAt + timeToAdd;
